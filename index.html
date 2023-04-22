@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Authentication</title>
+
+  <!--=============stylesheet================-->
+  <link rel="stylesheet" href="./style.css">
+      <!--FONTAWESOME CDN-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+      <!--GOOGLE FONTS (MONSERRAT)-->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,500&family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <!--========swiper=================-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+  
+</head>
+<body>
+
+  <!--===================header================-->
+
+  <header class="header">
+  <nav class="navbar">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <!--===============searchbar=====================-->
+
+  <form action="#" class="search-bar">
+    <input type="text" placeholder="search....">
+    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </form>
+</header>  
+
+<!--=====================background image======================-->
+<div class="background">
+
+</div>
+
+<!--=================container left======================-->
+ <div class="container">
+    <div class="content">
+    <h2 class="logo">
+      <i class="fa-brands fa-firefox"></i>
+      Web addict eppizy</h2>
+      <br>
+      <div class="text-sci">
+        <h2>Welcome! <br>
+        <span>To Our password authendication page</span>
+      </h2>
+
+      <p>
+         A login screen is a web page or an entry page to a web/mobile application
+          that requires user identification and authentication, regularly performed
+           by entering a username and password combination.
+        </p>
+
+        <div class="social-icons">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#"><i class="fa-brands fa-square-twitter"></i></a>
+  
+        </div>
+      </div>
+  </div>
+
+  <br>
+
+
+
+   <!--================container right=================--> 
+
+   <div class="logreg-box">
+    <div class="form-box login">
+      <form  name="submit-to-google-sheet">
+        <h2>Sign In</h2>
+
+        <div class="input-box">
+          <span class="icon">
+            <i class="fa-solid fa-envelope"></i>
+          </span>
+        <input name="username" type="text" placeholder="username" required>
+        </div>
+
+        <div class="input-box">
+          <span class="icon">
+            <i class="fa-solid fa-lock"></i>
+          </span>
+    <input name="password" type="password" placeholder="password" required>
+        </div>
+
+        <div id="recaptcha-container">
+
+        </div>
+
+        
+<div class="remember-forgot">
+  <label>
+  <input type="checkbox">
+  Remember me
+  </label>
+  <a href="#">
+  Forgot password?
+  </a>
+  </div>
+  <br>
+ 
+  <button id="send-button" type="submit">Sign In</button>
+
+  <br>
+  
+ 
+  
+  </form>
+
+  </div>
+
+  <span id="msg">hello</span>
+   
+<!--============javacript=============-->
+ <script src="/main.js"></script>
+
+ <script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxdaGCN6HKLAMppanYORvpXdq26OrJVbd3D_h1OVFLcyixv498vz56L_sOQpWg7N-TJ/exec';
+  const form = document.forms['submit-to-google-sheet'];
+  const msg = document.getElementById("msg")
+
+form.addEventListener('submit', e => {
+      e.preventDefault();
+    const passwordInput = document.getElementsByName('password')[0];
+    const passwordValue = passwordInput.value;
+    const upperCaseRegex = /[A-Z]/;
+    const lowerCaseRegex = /[a-z]/;
+    const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    
+    if (!upperCaseRegex.test(passwordValue) || !lowerCaseRegex.test(passwordValue) || !specialCharRegex.test(passwordValue)) {
+      alert('Your password must contain at least one uppercase letter, one lowercase letter, and one special character.');
+      return;
+    }
+    
+    const usernameInput = document.getElementsByName('username')[0];
+    const usernameValue = usernameInput.value;
+    
+    if (!upperCaseRegex.test(usernameValue) || !lowerCaseRegex.test(usernameValue)) {
+      alert('Your username must contain at least one uppercase letter and one lowercase letter.');
+      return;
+    }
+    
+    const sendButton = document.getElementById('send-button');
+    sendButton.disabled = true;
+    
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+    .then(response => {
+      msg.innerHTML= " Sent Successfully"
+    setTimeout(function() {
+      msg.innerHTML = ""
+    },3000)
+    form.reset()
+
+    })
+    .catch(error => console.error('Error!', error.message))
+  });
+
+</script>
+
+<!---=========Sign In transparent ===============-->
+
+<script>
+const logregBox = document.querySelector('.logreg-box');
+
+const loginLink = document.querySelector('.login-link');
+
+const registerLink = document.querySelector('.register-link');
+
+
+registerLink.addEventListener('click', () => {
+  logregBox.classList.add('active');
+});
+
+
+loginLink.addEventListener('click' , () =>{
+  logregBox.classList.remove('active');
+});
+
+</script>
+
+
+  </body>
+</html>
